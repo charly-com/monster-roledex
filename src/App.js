@@ -1,6 +1,7 @@
 import { Component } from "react";
 
-// import logo from "./logo.svg";
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box";
 import "./App.css";
 
 class App extends Component {
@@ -31,33 +32,27 @@ class App extends Component {
     this.setState(() => {
       return { searchField };
     });
-  }
+  };
 
   render() {
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
 
     const filteredMonsters = monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(
-        searchField.toLocaleLowerCase()
-      );
+      return monster.name
+        .toLocaleLowerCase()
+        .includes(searchField.toLocaleLowerCase());
     });
 
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="search-monster"
-          onChange={onSearchChange}
+        <SearchBox
+          onChangeHandler={onSearchChange}
+          placeholder="search monsters"
+          className="monsters-search-box"
         />
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
@@ -65,8 +60,10 @@ class App extends Component {
 
 export default App;
 
-
 // import { useState, useEffect } from "react";
+
+// import CardList from "./components/card-list/card-list.component";
+// import "./App.css";
 
 // const App = () => {
 //   const [monsters, setMonsters] = useState([]);
@@ -78,9 +75,16 @@ export default App;
 //       .then((users) => setMonsters(users));
 //   }, []);
 
-//   const filteredMonsters = monsters.filter((monster) =>
-//     monster.name.toLocaleLowerCase().includes(searchField.toLocaleLowerCase())
-//   );
+//   const onSearchChange = (event) => {
+//     const searchField = event.target.value.toLocaleLowerCase();
+//     setSearchField(searchField);
+//   };
+
+//   const filteredMonsters = monsters.filter((monster) => {
+//     return monster.name.toLocaleLowerCase().includes(
+//       searchField.toLocaleLowerCase()
+//     );
+//   });
 
 //   return (
 //     <div className="App">
@@ -88,16 +92,10 @@ export default App;
 //         className="search-box"
 //         type="search"
 //         placeholder="search-monster"
-//         onChange={(event) => {
-//           console.log(event.target.value);
-//           setSearchField(event.target.value);
-//         }}
+//         onChange={onSearchChange}
 //       />
-//       {filteredMonsters.map((monster) => (
-//         <div key={monster.id}>
-//           <h1>{monster.name}</h1>
-//         </div>
-//       ))}
+
+//       <CardList monsters={filteredMonsters}/>
 //     </div>
 //   );
 // };
